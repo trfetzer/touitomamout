@@ -1,8 +1,9 @@
 import { Scraper, Tweet } from "@the-convocation/twitter-scraper";
 import ora from "ora";
 
-import { API_RATE_LIMIT, TWITTER_HANDLE } from "../constants";
+import { API_RATE_LIMIT, TWITTER_HANDLE, START_TWEET_ID } from "../constants";
 import { getCachedPosts } from "../helpers/cache/get-cached-posts";
+import { savePostToCache } from "../helpers/cache/save-post-to-cache";
 import { oraPrefixer, oraProgress } from "../helpers/logs";
 import { isTweetCached, tweetFormatter } from "../helpers/tweet";
 import { getEligibleTweet } from "../helpers/tweet/get-eligible-tweet";
@@ -19,7 +20,7 @@ const pullContentStats = (tweets: Tweet[], title: string) => {
     `${title}:` +
     Object.entries(stats).reduce(
       (s, [name, value]) => `${s} ${name}: ${value}`,
-      "",
+      ""
     )
   );
 };
@@ -38,10 +39,8 @@ export const tweetsGetterService = async (
   const LATEST_TWEETS_COUNT = 5;
 
   /**
-   * Synchronization optimization: prevent excessive API calls & potential rate-limiting
-   *
-   * Pull the ${LATEST_TWEETS_COUNT}, filter eligible ones.
-   * This optimization prevents the post sync if the latest eligible tweet is cached.
+   * Optimization: Check a few of the latest tweets to see
+   * if synchronization is needed at all.
    */
   const latestTweets = twitterClient.getTweets(
     TWITTER_HANDLE,
@@ -51,22 +50,20 @@ export const tweetsGetterService = async (
   for await (const latestTweet of latestTweets) {
     log.text = "post: → checking for synchronization needs";
     if (!preventPostsSynchronization) {
-      // Only consider eligible tweets.
+      // Format the tweet
       const tweet = await getEligibleTweet(tweetFormatter(latestTweet));
-
       if (tweet) {
-        // If the latest eligible tweet is cached, mark sync as unneeded.
+        // If the latest eligible tweet is already cached, no sync is needed
         if (isTweetCached(tweet, cachedPosts)) {
           preventPostsSynchronization = true;
         }
-        // If the latest tweet is not cached,
-        // skip the current optimization and go to synchronization step.
+        // If it's not cached, we break and proceed with actual sync
         break;
       }
     }
   }
 
-  // Get tweets from API
+  // List to return
   const tweets: Tweet[] = [];
 
   if (preventPostsSynchronization) {
@@ -80,19 +77,42 @@ export const tweetsGetterService = async (
       tweetIndex++;
       oraProgress(log, { before: "post: → filtering" }, tweetIndex, 200);
 
+      // Detect a timeout for rate-limiting
       const rateLimitTimeout = setTimeout(
         () => (hasRateLimitReached = true),
         1000 * API_RATE_LIMIT,
       );
 
+      // If we’ve been rate-limited or tweet is cached, skip quickly
       if (hasRateLimitReached || isTweetCached(tweet, cachedPosts)) {
+        clearTimeout(rateLimitTimeout);
         continue;
       }
 
-      const t: Tweet = tweetFormatter(tweet);
+      // ================================
+      // NEW: Exclude tweets older than
+      // START_TWEET_ID and mark them
+      // as cached to avoid re-checking
+      // ================================
+      if (START_TWEET_ID) {
+        const numericTweetId = Number(tweet.id_str || tweet.id);
+        const numericStartId = Number(START_TWEET_ID);
+        if (numericTweetId <= numericStartId) {
+          // Mark it in the cache so we don’t re-check next run
+          savePostToCache({
+            ...tweetFormatter(tweet),
+            excludedByStartId: true, // optional property
+          });
+          clearTimeout(rateLimitTimeout);
+          continue; // skip processing this tweet
+        }
+      }
 
-      const eligibleTweet = await getEligibleTweet(t);
+      // Format & check if tweet is otherwise eligible
+      const formattedTweet: Tweet = tweetFormatter(tweet);
+      const eligibleTweet = await getEligibleTweet(formattedTweet);
       if (eligibleTweet) {
+        // Insert at front so that the newest tweets end up last in the array
         tweets.unshift(eligibleTweet);
       }
       clearTimeout(rateLimitTimeout);

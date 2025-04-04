@@ -18,6 +18,7 @@ import {
   SYNC_MASTODON,
   TOUITOMAMOUT_VERSION,
   TWITTER_HANDLE,
+  START_TWEET_ID
 } from "../constants";
 import { handleTwitterAuth } from "../helpers/auth/handle-twitter-auth";
 import { createCacheFile } from "../helpers/cache/create-cache";
@@ -26,6 +27,8 @@ import { runMigrations } from "../helpers/cache/run-migrations";
 import { TouitomamoutError } from "../helpers/error";
 import { oraPrefixer } from "../helpers/logs";
 import { buildConfigurationRules } from "./build-configuration-rules";
+
+export const START_TWEET_ID = process.env.START_TWEET_ID || "";
 
 export const configuration = async (): Promise<{
   synchronizedPostsCountAllTime: Gauge;

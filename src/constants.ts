@@ -41,6 +41,9 @@ export const INSTANCE_ID = (TWITTER_HANDLE ?? "instance")
   .toLowerCase()
   .trim()
   .replaceAll(" ", "_");
+
+export const START_TWEET_ID = process.env.START_TWEET_ID || "";
+
 export const STORAGE_DIR = process.env.STORAGE_DIR ?? process.cwd();
 export const CACHE_PATH = `${STORAGE_DIR}/cache.${INSTANCE_ID}.json`;
 export const COOKIES_PATH = `${STORAGE_DIR}/cookies.${INSTANCE_ID}.json`;
