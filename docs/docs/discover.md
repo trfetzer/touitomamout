@@ -24,6 +24,10 @@ Videos are not supported on Bluesky yet. But it will be soon 🤞! Until then, t
 be synced without the media. If no text and no compatible media is found, the post will be skipped during sync.
 :::
 
+:::note
+If a tweet includes a link to another tweet already synchronized by Touitomamout, the link is rewritten to the Mastodon or Bluesky URL of that cross‑posted content.
+:::
+
 ## How is synchronization working?
 
 ### Content synchronization
