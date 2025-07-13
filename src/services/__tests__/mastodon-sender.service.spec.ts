@@ -10,6 +10,7 @@ import { makeTweetMock } from "./helpers/make-tweet-mock";
 
 vi.mock("../../constants", () => ({
   DEBUG: false,
+  START_TWEET_ID: 0n,
 }));
 vi.mock("../../helpers/cache/save-post-to-cache", () => ({
   savePostToCache: vi.fn().mockImplementation(() => Promise.resolve()),

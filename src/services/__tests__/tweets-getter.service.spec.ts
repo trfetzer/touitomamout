@@ -8,6 +8,7 @@ vi.mock("../../constants", () => ({
   TWITTER_HANDLE: "username",
   DEBUG: false,
   API_RATE_LIMIT: 10,
+  START_TWEET_ID: 0n,
 }));
 vi.mock("../../helpers/tweet/is-tweet-cached");
 

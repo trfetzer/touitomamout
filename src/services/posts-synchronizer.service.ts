@@ -4,14 +4,14 @@ import { Scraper } from "@the-convocation/twitter-scraper";
 import { mastodon } from "masto";
 import ora from "ora";
 
-import { SYNC_DRY_RUN } from "../constants";
+import { SYNC_DRY_RUN, START_TWEET_ID } from "../constants";
 import { getCachedPosts } from "../helpers/cache/get-cached-posts";
 import { oraPrefixer } from "../helpers/logs";
 import { makePost } from "../helpers/post/make-post";
 import { Media, Metrics, SynchronizerResponse } from "../types";
 import { blueskySenderService } from "./bluesky-sender.service";
 import { mastodonSenderService } from "./mastodon-sender.service";
-import { tweetsGetterService } from "./tweets-getter.service";
+import { threadCollectorService } from "./thread-collector.service";
 
 /**
  * An async method in charge of dispatching posts synchronization tasks for each received tweets.
@@ -22,7 +22,9 @@ export const postsSynchronizerService = async (
   blueskyClient: AtpAgent | null,
   synchronizedPostsCountThisRun: Counter.default,
 ): Promise<SynchronizerResponse & { metrics: Metrics }> => {
-  const tweets = await tweetsGetterService(twitterClient);
+  const tweets = (
+    await threadCollectorService(twitterClient)
+  ).filter((t) => BigInt(t.id) > START_TWEET_ID);
 
   try {
     let tweetIndex = 0;

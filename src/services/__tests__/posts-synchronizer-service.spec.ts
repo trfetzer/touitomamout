@@ -6,6 +6,7 @@ import { mastodon } from "masto";
 import { blueskySenderService } from "../bluesky-sender.service";
 import { mastodonSenderService } from "../mastodon-sender.service";
 import { postsSynchronizerService } from "../posts-synchronizer.service";
+import { threadCollectorService } from "../thread-collector.service";
 import { MockTwitterClient } from "./mocks/twitter-client";
 
 vi.mock("../../constants", () => ({
@@ -13,6 +14,7 @@ vi.mock("../../constants", () => ({
   DEBUG: false,
   API_RATE_LIMIT: 1,
   SYNC_DRY_RUN: false,
+  START_TWEET_ID: 0n,
 }));
 
 vi.mock("../../helpers/cache/get-cached-posts", () => {
@@ -46,6 +48,9 @@ vi.mock("../bluesky-sender.service", () => ({
 vi.mock("../mastodon-sender.service", () => ({
   mastodonSenderService: vi.fn(),
 }));
+vi.mock("../thread-collector.service", () => ({
+  threadCollectorService: vi.fn(),
+}));
 
 const mastodonSenderServiceMock = (
   mastodonSenderService as vi.Mock
@@ -53,6 +58,7 @@ const mastodonSenderServiceMock = (
 const blueskySenderServiceMock = (
   blueskySenderService as vi.Mock
 ).mockImplementation(() => Promise.resolve());
+const threadCollectorServiceMock = threadCollectorService as vi.Mock;
 
 describe("postsSynchronizerService", () => {
   it("should return a response with the expected shape", async () => {
@@ -81,5 +87,27 @@ describe("postsSynchronizerService", () => {
         justSynced: 3,
       },
     });
+  });
+
+  it("should skip queue items below the threshold", async () => {
+    threadCollectorServiceMock.mockResolvedValue([
+      { id: "1", photos: [], videos: [] },
+      { id: "10", photos: [], videos: [] },
+    ]);
+    const twitterClient = {} as unknown as Scraper;
+    const mastodonClient = {} as mastodon.rest.Client;
+    const blueskyClient = {} as AtpAgent;
+    const synchronizedPostsCountThisRun = { inc: vi.fn() } as unknown as Counter.default;
+
+    const response = await postsSynchronizerService(
+      twitterClient,
+      mastodonClient,
+      blueskyClient,
+      synchronizedPostsCountThisRun,
+    );
+
+    expect(mastodonSenderServiceMock).toHaveBeenCalledTimes(1);
+    expect(blueskySenderServiceMock).toHaveBeenCalledTimes(1);
+    expect(response.metrics.justSynced).toBe(1);
   });
 });

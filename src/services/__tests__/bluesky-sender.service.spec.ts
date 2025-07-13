@@ -12,6 +12,7 @@ vi.mock("../../constants", () => ({
   DEBUG: false,
   BLUESKY_MEDIA_MAX_SIZE_BYTES: 976560,
   BACKDATE_BLUESKY_POSTS: true,
+  START_TWEET_ID: 0n,
 }));
 vi.mock("../../helpers/cache/save-post-to-cache", () => ({
   savePostToCache: vi.fn().mockImplementation(() => Promise.resolve()),
