@@ -15,6 +15,7 @@ const { mockedConstants } = vi.hoisted(() => ({
     SYNC_PROFILE_HEADER: "",
     TWITTER_HANDLE: "",
     DEBUG: false,
+    START_TWEET_ID: 0n,
   },
 }));
 
@@ -26,6 +27,7 @@ vi.doMock("../../constants", () => ({
   SYNC_PROFILE_NAME: mockedConstants.SYNC_PROFILE_NAME,
   SYNC_PROFILE_HEADER: mockedConstants.SYNC_PROFILE_HEADER,
   TWITTER_HANDLE: mockedConstants.TWITTER_HANDLE,
+  START_TWEET_ID: mockedConstants.START_TWEET_ID,
 }));
 
 vi.mock("../media-downloader.service", () => ({
