@@ -15,6 +15,8 @@
 
 An easy way to synchronize your Twitter's tweets to Mastodon & Bluesky posts. 🦤 → 🦣+☁️.
 
+When a tweet links to another tweet already synchronized by Touitomamout, that link is automatically rewritten to the Mastodon or Bluesky URL of the cross‑posted content.
+
 [![Release](https://img.shields.io/github/package-json/v/louisgrasset/touitomamout/main?label=release&color=#4c1)](https://github.com/louisgrasset/touitomamout/releases)
 [![License](https://img.shields.io/github/license/louisgrasset/touitomamout?color=#4c1)](https://github.com/louisgrasset/touitomamout/blob/main/LICENSE)
 [![Contributors](https://img.shields.io/github/contributors/louisgrasset/touitomamout)](https://github.com/louisgrasset/touitomamout/graphs/contributors)
