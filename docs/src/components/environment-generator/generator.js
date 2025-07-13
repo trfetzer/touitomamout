@@ -164,6 +164,13 @@ const Generator = ({ setConfiguration }) => {
           value: true,
           env: "BACKDATE_BLUESKY_POSTS",
         },
+        {
+          name: "startTweetId",
+          label: "Start synchronization from tweet ID",
+          type: "number",
+          value: 0,
+          env: "START_TWEET_ID",
+        },
       ],
     },
     profile: {

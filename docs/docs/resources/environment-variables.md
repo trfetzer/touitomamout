@@ -51,6 +51,7 @@ Configure here how the sync will be done.
 | `SYNC_PROFILE_PICTURE`    |  false  | ![**Sync**::profile](https://img.shields.io/badge/Sync-Profile-yellow)   | Whether sync the profile picture.          |
 | `SYNC_PROFILE_HEADER`     |  false  | ![**Sync**::profile](https://img.shields.io/badge/Sync-Profile-yellow)   | Whether sync the profile header (= banner). |
 | `BACKDATE_BLUESKY_POSTS`  |  true   | ![**Sync**::posts](https://img.shields.io/badge/Sync-Posts-green)        | Whether backdate the posts on Bluesky.     |
+| `START_TWEET_ID`          |    0    | ![**Sync**::posts](https://img.shields.io/badge/Sync-Posts-green)        | Only tweets with an ID greater than this value will be synchronized. |
 
 ## Configuration with Docker 🐳
 
