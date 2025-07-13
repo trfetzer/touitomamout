@@ -15,6 +15,9 @@ export const getMastodonQuoteLinkSection = async (
     "last",
     quotedTweetId,
   );
+  if (!mastodonQuotedId) {
+    return "";
+  }
 
   return `\n\nhttps://${MASTODON_INSTANCE}/@${mastodonUsername}/${mastodonQuotedId}`;
 };
