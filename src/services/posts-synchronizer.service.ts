@@ -8,10 +8,12 @@ import { SYNC_DRY_RUN } from "../constants";
 import { getCachedPosts } from "../helpers/cache/get-cached-posts";
 import { oraPrefixer } from "../helpers/logs";
 import { makePost } from "../helpers/post/make-post";
+import { writeQueue } from "../helpers/queue";
 import { Media, Metrics, SynchronizerResponse } from "../types";
 import { blueskySenderService } from "./bluesky-sender.service";
 import { mastodonSenderService } from "./mastodon-sender.service";
-import { tweetsGetterService } from "./tweets-getter.service";
+import { threadCollectorService } from "./thread-collector.service";
+import { tweetFormatter } from "../helpers/tweet/tweet-formatter";
 
 /**
  * An async method in charge of dispatching posts synchronization tasks for each received tweets.
@@ -22,11 +24,15 @@ export const postsSynchronizerService = async (
   blueskyClient: AtpAgent | null,
   synchronizedPostsCountThisRun: Counter.default,
 ): Promise<SynchronizerResponse & { metrics: Metrics }> => {
-  const tweets = await tweetsGetterService(twitterClient);
+  const queue = await threadCollectorService(twitterClient);
+  const tweets = [...queue];
 
   try {
     let tweetIndex = 0;
-    for (const tweet of tweets) {
+    let justSynced = 0;
+    while (queue.length) {
+      const item = queue[0];
+      const tweet = tweetFormatter(await twitterClient.getTweet(item.id));
       tweetIndex++;
       const log = ora({
         color: "cyan",
@@ -54,6 +60,11 @@ export const postsSynchronizerService = async (
         synchronizedPostsCountThisRun.inc();
       }
 
+      // remove processed tweet from queue
+      queue.shift();
+      await writeQueue(queue);
+      justSynced++;
+
       log.stop();
     }
 
@@ -63,7 +74,7 @@ export const postsSynchronizerService = async (
       blueskyClient,
       metrics: {
         totalSynced: Object.keys(await getCachedPosts()).length,
-        justSynced: tweets.length,
+        justSynced: justSynced,
       },
     };
   } catch (err) {
