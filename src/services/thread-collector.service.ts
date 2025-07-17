@@ -48,6 +48,9 @@ export const threadCollectorService = async (
   const tweetsIterator = twitterClient.getTweets(TWITTER_HANDLE, 200);
   for await (const raw of tweetsIterator) {
     const formatted = tweetFormatter(raw as Tweet);
+    if (!formatted.id) {
+      continue;
+    }
     if (isTweetCached(formatted, cachedPosts) || queuedIds.has(formatted.id)) {
       continue;
     }
@@ -64,11 +67,14 @@ export const threadCollectorService = async (
     );
 
     for (const t of thread) {
+      if (!t.id) {
+        continue;
+      }
       if (queuedIds.has(t.id) || isTweetCached(t, cachedPosts)) {
         continue;
       }
       queue.push({
-        id: t.id!,
+        id: t.id,
         timestamp: t.timestamp ?? Date.now(),
         inReplyToStatusId: t.inReplyToStatusId,
       });
