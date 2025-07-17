@@ -63,3 +63,16 @@ Kudos to the following projects that made Touitomamout project possible 🙏
 - 🦣 [masto.js](https://github.com/neet/masto.js)
 - ☁️ [atproto](https://github.com/bluesky-social/atproto)
 
+## Running tests
+Install dependencies before executing the test suite:
+
+```bash
+npm ci # or `npm install`
+```
+
+Run the tests with:
+
+```bash
+npm test
+```
+
