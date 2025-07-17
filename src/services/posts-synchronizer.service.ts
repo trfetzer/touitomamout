@@ -32,7 +32,13 @@ export const postsSynchronizerService = async (
     let justSynced = 0;
     while (queue.length) {
       const item = queue[0];
-      const tweet = tweetFormatter(await twitterClient.getTweet(item.id));
+      const fetchedTweet = await twitterClient.getTweet(item.id);
+      if (!fetchedTweet) {
+        queue.shift();
+        await writeQueue(queue);
+        continue;
+      }
+      const tweet = tweetFormatter(fetchedTweet);
       tweetIndex++;
       const log = ora({
         color: "cyan",
