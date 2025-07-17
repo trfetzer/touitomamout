@@ -48,6 +48,12 @@ Please find the project documentation here:
 
 [<img src="https://github.com/louisgrasset/touitomamout/raw/main/.github/docs/documentation-center.svg"  width="300px"/>](https://louisgrasset.github.io/touitomamout/docs/discover)
 
+## Requirements
+Touitomamout supports Node.js versions **18** and newer as defined in `package.json`.
+For the best experience, we recommend using **Node.js 20**.
+Running on more recent Node releases may still work but can produce warnings,
+for instance with `assert { type: "json" }`.
+
 ## Dependencies
 Kudos to the following projects that made Touitomamout project possible 🙏
 - 🦤 [twitter-scraper](https://github.com/the-convocation/twitter-scraper)
