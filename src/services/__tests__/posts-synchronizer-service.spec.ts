@@ -121,6 +121,46 @@ describe("postsSynchronizerService", () => {
     });
   });
 
+  it("should skip when a tweet can't be fetched", async () => {
+    const t2 = makeTweetMock({ id: "2", timestamp: 2 });
+
+    const queue = [
+      { id: "1", timestamp: 1 },
+      { id: "2", timestamp: 2 },
+    ];
+
+    threadCollectorServiceMock.mockResolvedValue(queue);
+
+    const twitterClient = new MockTwitterClient(undefined, undefined, {
+      "2": t2,
+    }) as unknown as Scraper;
+    const mastodonClient = {} as mastodon.rest.Client;
+    const blueskyClient = {} as AtpAgent;
+    const synchronizedPostsCountThisRun = {
+      inc: vi.fn(),
+    } as unknown as Counter.default;
+
+    const response = await postsSynchronizerService(
+      twitterClient,
+      mastodonClient,
+      blueskyClient,
+      synchronizedPostsCountThisRun,
+    );
+
+    expect(mastodonSenderServiceMock).toHaveBeenCalledTimes(1);
+    expect(blueskySenderServiceMock).toHaveBeenCalledTimes(1);
+    expect(writeQueueMock).toHaveBeenCalledWith([]);
+    expect(response).toStrictEqual({
+      twitterClient,
+      mastodonClient,
+      blueskyClient,
+      metrics: {
+        totalSynced: 0,
+        justSynced: 1,
+      },
+    });
+  });
+
   it("should keep reply chain across runs", async () => {
     const t1 = makeTweetMock({ id: "10", timestamp: 1 });
     const t2 = makeTweetMock({
