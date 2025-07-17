@@ -4,7 +4,7 @@ import ora from "ora";
 import { API_RATE_LIMIT, TWITTER_HANDLE } from "../constants";
 import { getCachedPosts } from "../helpers/cache/get-cached-posts";
 import { oraPrefixer, oraProgress } from "../helpers/logs";
-import { isTweetCached, tweetFormatter } from "../helpers/tweet";
+import { isTweetCached, tweetFormatter, keepAfterStartId } from "../helpers/tweet";
 import { getEligibleTweet } from "../helpers/tweet/get-eligible-tweet";
 
 const pullContentStats = (tweets: Tweet[], title: string) => {
@@ -51,8 +51,13 @@ export const tweetsGetterService = async (
   for await (const latestTweet of latestTweets) {
     log.text = "post: → checking for synchronization needs";
     if (!preventPostsSynchronization) {
+      const formatted = tweetFormatter(latestTweet);
+      if (!keepAfterStartId(formatted)) {
+        preventPostsSynchronization = true;
+        break;
+      }
       // Only consider eligible tweets.
-      const tweet = await getEligibleTweet(tweetFormatter(latestTweet));
+      const tweet = await getEligibleTweet(formatted);
 
       if (tweet) {
         // If the latest eligible tweet is cached, mark sync as unneeded.
@@ -85,11 +90,17 @@ export const tweetsGetterService = async (
         1000 * API_RATE_LIMIT,
       );
 
-      if (hasRateLimitReached || isTweetCached(tweet, cachedPosts)) {
+      if (hasRateLimitReached) {
         continue;
       }
 
       const t: Tweet = tweetFormatter(tweet);
+      if (!keepAfterStartId(t)) {
+        break;
+      }
+      if (isTweetCached(tweet, cachedPosts)) {
+        continue;
+      }
 
       const eligibleTweet = await getEligibleTweet(t);
       if (eligibleTweet) {

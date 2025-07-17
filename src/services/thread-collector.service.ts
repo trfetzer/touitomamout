@@ -4,6 +4,7 @@ import { TWITTER_HANDLE } from "../constants";
 import { getCachedPosts } from "../helpers/cache/get-cached-posts";
 import { isTweetCached } from "../helpers/tweet/is-tweet-cached";
 import { tweetFormatter } from "../helpers/tweet/tweet-formatter";
+import { keepAfterStartId } from "../helpers/tweet/keep-after-start-id";
 import { readQueue, writeQueue, Queue } from "../helpers/queue";
 
 const collectThread = async (
@@ -16,6 +17,9 @@ const collectThread = async (
   let current: Tweet | undefined = tweet;
 
   while (current) {
+    if (!keepAfterStartId(current)) {
+      break;
+    }
     stack.unshift(current);
     const parentId = current.inReplyToStatusId;
     if (!parentId) {
@@ -50,6 +54,9 @@ export const threadCollectorService = async (
     const formatted = tweetFormatter(raw as Tweet);
     if (!formatted.id) {
       continue;
+    }
+    if (!keepAfterStartId(formatted)) {
+      break;
     }
     if (isTweetCached(formatted, cachedPosts) || queuedIds.has(formatted.id)) {
       continue;
