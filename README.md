@@ -39,6 +39,9 @@ Tools:
 [![Prettier](https://img.shields.io/badge/prettier-1A2C34?logo=prettier&logoColor=white)](https://github.com/prettier/prettier)
 ![Sonarlint](https://img.shields.io/badge/sonarlint-CB2029?logo=sonarlint&logoColor=white)
 
+## Linting and Formatting
+Run `npm run lint` to check the code for lint errors. Use `npm run lint:fix` to automatically fix them.
+
 ![touitomamout banner](./.github/docs/touitomamout-banner.jpg)
 
 ## Documentation
