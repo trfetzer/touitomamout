@@ -1,0 +1,33 @@
+---
+sidebar_position: 2
+title: "Import archives"
+---
+
+# Import archives
+
+The `import-archives` script helps rebuilding a cache from previous posts. It reads export files from Twitter, Mastodon and Bluesky and updates Touitomamout cache accordingly.
+
+## Usage
+
+Run the script with `ts-node` and provide the paths to your archive files when prompted:
+
+```bash
+npx ts-node src/tools/import-archives.ts
+```
+
+The script will ask for the following locations:
+
+- **tweets.js** and optional **note-tweet.js** from the Twitter archive
+- **outbox.json** from the Mastodon export
+- the folder that contains Bluesky post files
+
+## Example
+
+```text
+Path to tweets.js: /exports/twitter/data/tweets.js
+Path to note-tweet.js (optional, press enter to skip):
+Path to Mastodon outbox.json: /exports/mastodon/outbox.json
+Path to Bluesky export folder: /exports/bluesky/posts
+```
+
+After parsing the files, the cache is updated with the discovered posts.
