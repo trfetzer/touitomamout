@@ -16,10 +16,12 @@ import {
   SYNC_BLUESKY,
   SYNC_DRY_RUN,
   SYNC_MASTODON,
+  SYNC_LINKEDIN,
   TOUITOMAMOUT_VERSION,
   TWITTER_HANDLE,
 } from "../constants";
 import { handleTwitterAuth } from "../helpers/auth/handle-twitter-auth";
+import { handleLinkedinAuth } from "../helpers/auth/handle-linkedin-auth";
 import { createCacheFile } from "../helpers/cache/create-cache";
 import { getCachedPosts } from "../helpers/cache/get-cached-posts";
 import { runMigrations } from "../helpers/cache/run-migrations";
@@ -82,6 +84,10 @@ export const configuration = async (): Promise<{
   const twitterClient = new Scraper();
 
   await handleTwitterAuth(twitterClient);
+
+  if (SYNC_LINKEDIN) {
+    await handleLinkedinAuth();
+  }
 
   let mastodonClient = null;
   if (SYNC_MASTODON) {
