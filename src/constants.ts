@@ -37,6 +37,8 @@ export const MASTODON_ACCESS_TOKEN = (
 export const BLUESKY_INSTANCE = (process.env.BLUESKY_INSTANCE ?? "").trim();
 export const BLUESKY_IDENTIFIER = (process.env.BLUESKY_IDENTIFIER ?? "").trim();
 export const BLUESKY_PASSWORD = (process.env.BLUESKY_PASSWORD ?? "").trim();
+export const LINKEDIN_SESSION_COOKIE =
+  (process.env.LINKEDIN_SESSION_COOKIE ?? "").trim();
 export const INSTANCE_ID = (TWITTER_HANDLE ?? "instance")
   .toLowerCase()
   .trim()
@@ -47,6 +49,7 @@ export const COOKIES_PATH = `${STORAGE_DIR}/cookies.${INSTANCE_ID}.json`;
 export const QUEUE_PATH = `${STORAGE_DIR}/queue.${INSTANCE_ID}.json`;
 export const SYNC_MASTODON = (process.env.SYNC_MASTODON ?? "false") === "true";
 export const SYNC_BLUESKY = (process.env.SYNC_BLUESKY ?? "false") === "true";
+export const SYNC_LINKEDIN = (process.env.SYNC_LINKEDIN ?? "false") === "true";
 export const BACKDATE_BLUESKY_POSTS =
   (process.env.BACKDATE_BLUESKY_POSTS ?? "true") === "true";
 export const SYNC_FREQUENCY_MIN = parseInt(

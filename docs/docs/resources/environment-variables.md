@@ -38,6 +38,13 @@ Even if `TWITTER_USERNAME` & `TWITTER_PASSWORD` are optional, these variables ar
 | 📌 `BLUESKY_IDENTIFIER` |    ∅    | ![**Bluesky**::auth](https://img.shields.io/badge/Bluesky-Auth-0085ff) | The bluesky user identifier.<br/>_(eg: `handle.bsky.social`)_                                                      |
 | 📌 `BLUESKY_PASSWORD`   |    ∅    | ![**Bluesky**::auth](https://img.shields.io/badge/Bluesky-Auth-0085ff) | The bluesky password.<br/>_(Can be a user password or an [app password](https://bsky.app/settings/app-passwords))_ |
 
+## To sync to LinkedIn 🔗
+
+| Variable                     | Default | Category                                                       | Description                                        |
+|------------------------------|:-------:|---------------------------------------------------------------|----------------------------------------------------|
+| 📌 `LINKEDIN_SESSION_COOKIE` |    ∅    | ![**LinkedIn**::auth](https://img.shields.io/badge/LinkedIn-Auth-0A66C2) | The LinkedIn `li_at` cookie used for authentication. |
+| 📌 `SYNC_LINKEDIN`           |  false  | ![**Sync**::platform](https://img.shields.io/badge/Sync-Platform-e8e8e8) | Whether run the sync to LinkedIn.                  |
+
 ## Synchronization 🐝
 
 Configure here how the sync will be done.

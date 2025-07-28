@@ -138,6 +138,27 @@ const Generator = ({ setConfiguration }) => {
         },
       ],
     },
+    linkedin: {
+      name: "🔗 LinkedIn authentication",
+      required: false,
+      enabled: false,
+      fields: [
+        {
+          name: "sessionCookie",
+          label: "LinkedIn li_at session cookie",
+          type: "string",
+          value: "",
+          env: "LINKEDIN_SESSION_COOKIE",
+        },
+        {
+          name: "enabled",
+          type: "boolean",
+          value: true,
+          hidden: true,
+          env: "SYNC_LINKEDIN",
+        },
+      ],
+    },
     sync: {
       name: "🔄 Synchronization",
       required: false,
