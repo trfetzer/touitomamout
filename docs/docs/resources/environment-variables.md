@@ -38,6 +38,12 @@ Even if `TWITTER_USERNAME` & `TWITTER_PASSWORD` are optional, these variables ar
 | 📌 `BLUESKY_IDENTIFIER` |    ∅    | ![**Bluesky**::auth](https://img.shields.io/badge/Bluesky-Auth-0085ff) | The bluesky user identifier.<br/>_(eg: `handle.bsky.social`)_                                                      |
 | 📌 `BLUESKY_PASSWORD`   |    ∅    | ![**Bluesky**::auth](https://img.shields.io/badge/Bluesky-Auth-0085ff) | The bluesky password.<br/>_(Can be a user password or an [app password](https://bsky.app/settings/app-passwords))_ |
 
+## To sync to LinkedIn 💼
+
+| Variable                   | Default | Category | Description |
+|----------------------------|:-------:|------------------------------------------|------------------------------------------------|
+| 📌 `LINKEDIN_SESSION_COOKIE` |    ∅    | ![**LinkedIn**::auth](https://img.shields.io/badge/LinkedIn-Auth-0A66C2) | The `li_at` cookie used to authenticate requests.<br/>**[See LinkedIn authentication instructions](./linkedin-authentication).** |
+
 ## Synchronization 🐝
 
 Configure here how the sync will be done.
@@ -46,6 +52,7 @@ Configure here how the sync will be done.
 |---------------------------|:-------:|--------------------------------------------------------------------------|--------------------------------------------|
 | 📌 `SYNC_MASTODON`        |  false  | ![**Sync**::platform](https://img.shields.io/badge/Sync-Platform-e8e8e8) | Whether run the sync to Mastodon.          |
 | 📌 `SYNC_BLUESKY`         |  false  | ![**Sync**::platform](https://img.shields.io/badge/Sync-Platform-e8e8e8) | Whether run the sync to Bluesky.           |                                            |
+| 📌 `SYNC_LINKEDIN`        |  false  | ![**Sync**::platform](https://img.shields.io/badge/Sync-Platform-e8e8e8) | Whether run the sync to LinkedIn.          |
 | `SYNC_PROFILE_NAME`       |  false  | ![**Sync**::profile](https://img.shields.io/badge/Sync-Profile-yellow)   | Whether sync the profile name.             |
 | `SYNC_PROFILE_DESCRIPTION` |  false  | ![**Sync**::profile](https://img.shields.io/badge/Sync-Profile-yellow)   | Whether sync the profile description.      |
 | `SYNC_PROFILE_PICTURE`    |  false  | ![**Sync**::profile](https://img.shields.io/badge/Sync-Profile-yellow)   | Whether sync the profile picture.          |
