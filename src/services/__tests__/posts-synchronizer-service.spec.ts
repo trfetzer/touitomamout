@@ -28,6 +28,7 @@ vi.mock("../../constants", () => ({
   DEBUG: false,
   API_RATE_LIMIT: 1,
   SYNC_DRY_RUN: false,
+  SYNC_LINKEDIN: true,
 }));
 
 vi.mock("../../helpers/cache/get-cached-posts", () => {
@@ -116,6 +117,7 @@ describe("postsSynchronizerService", () => {
 
     expect(mastodonSenderServiceMock).toHaveBeenCalledTimes(3);
     expect(blueskySenderServiceMock).toHaveBeenCalledTimes(3);
+    expect(linkedinSenderServiceMock).toHaveBeenCalledTimes(3);
     expect(writeQueueMock).toHaveBeenCalledWith([]);
     expect(response).toStrictEqual({
       twitterClient,
@@ -156,6 +158,7 @@ describe("postsSynchronizerService", () => {
 
     expect(mastodonSenderServiceMock).toHaveBeenCalledTimes(1);
     expect(blueskySenderServiceMock).toHaveBeenCalledTimes(1);
+    expect(linkedinSenderServiceMock).toHaveBeenCalledTimes(1);
     expect(writeQueueMock).toHaveBeenCalledWith([]);
     expect(response).toStrictEqual({
       twitterClient,
