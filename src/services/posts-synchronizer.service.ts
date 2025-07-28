@@ -4,7 +4,11 @@ import { Scraper } from "@the-convocation/twitter-scraper";
 import { mastodon } from "masto";
 import ora from "ora";
 
-import { SYNC_DRY_RUN } from "../constants";
+import {
+  SYNC_DRY_RUN,
+  SYNC_LINKEDIN,
+  LINKEDIN_SESSION_COOKIE,
+} from "../constants";
 import { getCachedPosts } from "../helpers/cache/get-cached-posts";
 import { oraPrefixer } from "../helpers/logs";
 import { makePost } from "../helpers/post/make-post";
@@ -12,6 +16,7 @@ import { writeQueue } from "../helpers/queue";
 import { Media, Metrics, SynchronizerResponse } from "../types";
 import { blueskySenderService } from "./bluesky-sender.service";
 import { mastodonSenderService } from "./mastodon-sender.service";
+import { linkedinSenderService } from "./linkedin-sender.service";
 import { threadCollectorService } from "./thread-collector.service";
 import { tweetFormatter } from "../helpers/tweet/tweet-formatter";
 
@@ -61,8 +66,17 @@ export const postsSynchronizerService = async (
       if (!SYNC_DRY_RUN) {
         await mastodonSenderService(mastodonClient, mastodonPost, medias, log);
         await blueskySenderService(blueskyClient, blueskyPost, medias, log);
+        if (SYNC_LINKEDIN) {
+          await linkedinSenderService(
+            LINKEDIN_SESSION_COOKIE,
+            tweet.id,
+            tweet.text,
+            medias,
+            log,
+          );
+        }
       }
-      if (mastodonClient || blueskyPost) {
+      if (mastodonClient || blueskyPost || SYNC_LINKEDIN) {
         synchronizedPostsCountThisRun.inc();
       }
 
