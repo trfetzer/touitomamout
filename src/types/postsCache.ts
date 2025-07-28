@@ -5,15 +5,18 @@ export type BlueskyCacheChunk = {
   cid: string;
   rkey: string;
 };
+export type LinkedInCacheChunk = string;
 
 export type MastodonCache = MastodonCacheChunk[];
 export type BlueskyCache = BlueskyCacheChunk[];
+export type LinkedInCache = LinkedInCacheChunk[];
 
 export type PostsCache = Record<
   string,
   {
     [Platform.MASTODON]?: MastodonCache;
     [Platform.BLUESKY]?: BlueskyCache;
+    [Platform.LINKEDIN]?: LinkedInCache;
   }
 >;
 export type ProfileCache = {

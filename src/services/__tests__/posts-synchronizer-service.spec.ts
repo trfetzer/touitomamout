@@ -6,6 +6,7 @@ import { mastodon } from "masto";
 import { blueskySenderService } from "../bluesky-sender.service";
 import { mastodonSenderService } from "../mastodon-sender.service";
 import { postsSynchronizerService } from "../posts-synchronizer.service";
+import { linkedinSenderService } from "../linkedin-sender.service";
 import { MockTwitterClient } from "./mocks/twitter-client";
 import { makeTweetMock } from "./helpers/make-tweet-mock";
 
@@ -56,12 +57,18 @@ vi.mock("../bluesky-sender.service", () => ({
 vi.mock("../mastodon-sender.service", () => ({
   mastodonSenderService: vi.fn(),
 }));
+vi.mock("../linkedin-sender.service", () => ({
+  linkedinSenderService: vi.fn(),
+}));
 
 const mastodonSenderServiceMock = (
   mastodonSenderService as vi.Mock
 ).mockImplementation(() => Promise.resolve());
 const blueskySenderServiceMock = (
   blueskySenderService as vi.Mock
+).mockImplementation(() => Promise.resolve());
+const linkedinSenderServiceMock = (
+  linkedinSenderService as vi.Mock
 ).mockImplementation(() => Promise.resolve());
 
 
