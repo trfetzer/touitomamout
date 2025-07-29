@@ -10,7 +10,7 @@ const darkCodeTheme = themes.dracula;
 const config = {
   title: "Touitomamout Docs",
   tagline:
-    "An easy way to synchronize your Twitter's tweets to Mastodon & Bluesky posts.",
+    "An easy way to synchronize your Twitter's tweets to Mastodon, Bluesky & LinkedIn posts.",
   favicon: "img/favicon.ico",
 
   // Set the production url of your site here

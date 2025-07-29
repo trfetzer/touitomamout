@@ -13,9 +13,9 @@
 # [touitomamout](https://github.com/louisgrasset/touitomamout)
 [<img src="https://github.com/louisgrasset/touitomamout/raw/main/.github/docs/touitomamout.svg"  width="150px"/>](https://louisgrasset.github.io/touitomamout/docs/discover)
 
-An easy way to synchronize your Twitter's tweets to Mastodon & Bluesky posts. 🦤 → 🦣+☁️.
+An easy way to synchronize your Twitter's tweets to Mastodon, Bluesky & LinkedIn posts. 🦤 → 🦣+☁️+💼.
 
-When a tweet links to another tweet already synchronized by Touitomamout, that link is automatically rewritten to the Mastodon or Bluesky URL of the cross‑posted content.
+When a tweet links to another tweet already synchronized by Touitomamout, that link is automatically rewritten to the Mastodon, Bluesky or LinkedIn URL of the cross‑posted content.
 
 [![Release](https://img.shields.io/github/package-json/v/louisgrasset/touitomamout/main?label=release&color=#4c1)](https://github.com/louisgrasset/touitomamout/releases)
 [![License](https://img.shields.io/github/license/louisgrasset/touitomamout?color=#4c1)](https://github.com/louisgrasset/touitomamout/blob/main/LICENSE)

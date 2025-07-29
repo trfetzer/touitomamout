@@ -7,7 +7,7 @@ sidebar_position: 1
 
 Let's discover Touitomamout in less than ⏲️ **5** minutes!
 
-First, what is Touitomamout? It is a self-hosted cross-poster from **Twitter** to **Mastodon** and / or **Bluesky**. It is a tool that allows you to sync tweets to Mastodon & Bluesky. But it also allows you to synchronize the profile picture, the name, the banner & profile description if you’d like to.
+First, what is Touitomamout? It is a self-hosted cross-poster from **Twitter** to **Mastodon**, **Bluesky**, and **LinkedIn**. It is a tool that allows you to sync tweets to Mastodon, Bluesky and LinkedIn. But it also allows you to synchronize the profile picture, the name, the banner & profile description if you’d like to.
 
 ## Features
 
@@ -17,6 +17,7 @@ Here are an overview of the Touitomamout features.
 |-----------------|------|--------|--------|------|--------------|
 | **Mastodon 🦣** | ✅    | ✅      | ✅      | ✅    | ✅ (optional) |
 | **Bluesky ☁️**  | ✅    | ✅      | ⛔      | ✅    | ✅ (optional) |
+| **LinkedIn 💼** | ✅    | ✅      | ⛔      | ✅    | ⛔             |
 
 :::note
 
@@ -25,7 +26,11 @@ be synced without the media. If no text and no compatible media is found, the po
 :::
 
 :::note
-If a tweet includes a link to another tweet already synchronized by Touitomamout, the link is rewritten to the Mastodon or Bluesky URL of that cross‑posted content.
+If a tweet includes a link to another tweet already synchronized by Touitomamout, the link is rewritten to the Mastodon, Bluesky or LinkedIn URL of that cross‑posted content.
+:::
+
+:::note
+LinkedIn synchronization authenticates using your `li_at` session cookie.
 :::
 
 ## How is synchronization working?
@@ -62,4 +67,5 @@ This process is totally optional and **can be disabled** from the `.env` configu
 
 The project relies on [Twitter Scraper](https://github.com/the-convocation/twitter-scraper) to access the data from Twitter. Since it is not an official way of connecting to Twitter, please take into account the data retrieval can sometimes be slow down or broken.
 Some filtering & configuration rules are taken into account to output the list of posts to sync.
-Finally, posts are provided to Mastodon & Bluesky by relying on the [atproto](https://github.com/bluesky-social/atproto) and [masto.js](https://github.com/neet/masto.js) libraries.
+Finally, posts are provided to Mastodon, Bluesky and LinkedIn.
+Touitomamout relies on [atproto](https://github.com/bluesky-social/atproto) and [masto.js](https://github.com/neet/masto.js) for Bluesky and Mastodon, while LinkedIn posts are sent using Puppeteer with your session cookie.
