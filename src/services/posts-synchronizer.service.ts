@@ -69,7 +69,7 @@ export const postsSynchronizerService = async (
         if (SYNC_LINKEDIN) {
           await linkedinSenderService(
             LINKEDIN_SESSION_COOKIE,
-            tweet.id,
+            tweet.id ?? null,
             tweet.text,
             medias,
             log,
