@@ -18,6 +18,11 @@ import { shortenedUrlsReplacer } from "../helpers/url/shortened-urls-replacer";
 import { Platform, ProfileCache, SynchronizerResponse } from "../types";
 import { mediaDownloaderService } from "./media-downloader.service";
 
+const PROFILE_SYNC_PLATFORMS: Platform[] = [
+  Platform.MASTODON,
+  Platform.BLUESKY,
+];
+
 /**
  * An async method in charge of dispatching profile synchronization tasks.
  */
@@ -124,7 +129,7 @@ export const profileSynchronizerService = async (
         return acc;
       }
 
-      const item = Object.values(Platform).reduce((item, platform) => {
+      const item = PROFILE_SYNC_PLATFORMS.reduce((item, platform) => {
         const { property, value } = itemToSync[platform];
         return {
           ...item,
