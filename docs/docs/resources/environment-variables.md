@@ -43,6 +43,7 @@ Even if `TWITTER_USERNAME` & `TWITTER_PASSWORD` are optional, these variables ar
 | Variable                   | Default | Category | Description |
 |----------------------------|:-------:|------------------------------------------|------------------------------------------------|
 | 📌 `LINKEDIN_SESSION_COOKIE` |    ∅    | ![**LinkedIn**::auth](https://img.shields.io/badge/LinkedIn-Auth-0A66C2) | The `li_at` cookie used to authenticate requests.<br/>**[See LinkedIn authentication instructions](./linkedin-authentication).** |
+| `PUPPETEER_HEADLESS` | "new" | ![**LinkedIn**::auth](https://img.shields.io/badge/LinkedIn-Auth-0A66C2) | Whether run Puppeteer in headless mode. Set it to `false` to open a browser window. |
 
 ## Synchronization 🐝
 

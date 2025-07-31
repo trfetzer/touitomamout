@@ -10,12 +10,14 @@ vi.mock("../save-linkedin-cookies", () => ({
 const { mockedConstants } = vi.hoisted(() => ({
   mockedConstants: {
     LINKEDIN_SESSION_COOKIE: "",
+    PUPPETEER_HEADLESS: "new",
   },
 }));
 
 vi.mock("../../../constants", () => mockedConstants);
 vi.doMock("../../../constants", () => ({
   LINKEDIN_SESSION_COOKIE: mockedConstants.LINKEDIN_SESSION_COOKIE,
+  PUPPETEER_HEADLESS: mockedConstants.PUPPETEER_HEADLESS,
 }));
 
 const cookies = vi.fn().mockResolvedValue([]);

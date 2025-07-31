@@ -5,6 +5,7 @@ title: LinkedIn authentication
 # LinkedIn Authentication
 
 Touitomamout uses a headless browser powered by **Puppeteer** to automate posting on LinkedIn. In order for the browser to act as an authenticated user it requires your LinkedIn session cookie (`li_at`).
+If you need to see what Puppeteer is doing—e.g. to troubleshoot login issues such as too many redirects—you can set the environment variable `PUPPETEER_HEADLESS` to `false` to open a visible browser window.
 
 ## Retrieving the `li_at` cookie
 

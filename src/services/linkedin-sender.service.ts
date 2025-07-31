@@ -1,7 +1,7 @@
 import puppeteer from "puppeteer";
 import { Ora } from "ora";
 
-import { DEBUG, VOID } from "../constants";
+import { DEBUG, VOID, PUPPETEER_HEADLESS } from "../constants";
 import { savePostToCache } from "../helpers/cache/save-post-to-cache";
 import { getPostExcerpt } from "../helpers/post/get-post-excerpt";
 import { LinkedInCacheChunk, Media, Platform } from "../types";
@@ -24,7 +24,7 @@ export const linkedinSenderService = async (
     return;
   }
 
-  const browser = await puppeteer.launch({ headless: "new" });
+  const browser = await puppeteer.launch({ headless: PUPPETEER_HEADLESS });
   const page = await browser.newPage();
   await page.setCookie({
     name: "li_at",
