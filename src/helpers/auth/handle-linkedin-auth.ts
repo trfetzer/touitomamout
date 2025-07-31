@@ -1,6 +1,6 @@
 import puppeteer from "puppeteer";
 
-import { LINKEDIN_SESSION_COOKIE } from "../../constants";
+import { LINKEDIN_SESSION_COOKIE, PUPPETEER_HEADLESS } from "../../constants";
 import { saveLinkedinCookies } from "./save-linkedin-cookies";
 
 export const handleLinkedinAuth = async (): Promise<void> => {
@@ -8,7 +8,7 @@ export const handleLinkedinAuth = async (): Promise<void> => {
     return;
   }
 
-  const browser = await puppeteer.launch({ headless: "new" });
+  const browser = await puppeteer.launch({ headless: PUPPETEER_HEADLESS });
   const page = await browser.newPage();
 
   await page.setCookie({

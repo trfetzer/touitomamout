@@ -7,6 +7,7 @@ import { mediaDownloaderService } from "../media-downloader.service";
 
 vi.mock("../../constants", () => ({
   DEBUG: false,
+  PUPPETEER_HEADLESS: "new",
 }));
 vi.mock("../media-downloader.service", () => ({
   mediaDownloaderService: vi.fn(),
